@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parent Notifications Dashboard - Empiras Vanguard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      display:flex;
+      min-height:100vh;
+      background:#120c45;
+      color:#333;
+      font-family:'Inter', sans-serif;
+    }
+
+    /* Sidebar */
+    .nav-bar {
+      width:220px; 
+      background:#120C45; 
+      color:#fff; 
+      display:flex; 
+      flex-direction:column; 
+      padding:20px 0; 
+      flex-shrink:0;
+    }
+    .nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+    .nav-bar .logo-container img { width:120px; height:auto; }
+    .nav-bar ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; }
+    .nav-bar ul li { margin:10px 0; }
+    .nav-bar ul li a {
+      display:flex; 
+      align-items:center; 
+      color:#fff; 
+      text-decoration:none; 
+      font-weight:600; 
+      padding:10px 20px; 
+      border-radius:8px; 
+      transition:all .3s;
+    }
+    .nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+    .nav-bar ul li a:hover, .nav-bar ul li a.active {
+      background:#db9953; 
+      color:#120C45; 
+      transform:translateX(5px);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex-grow:1;
+      display:flex;
+      flex-direction:column;
+      overflow-y:auto;
+      background:#f5f5f5;
+    }
+    header {
+      background:#db9953; 
+      color:#fff; 
+      padding:20px 40px; 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      font-size:1.5rem; 
+      box-shadow:0 5px 15px rgba(0,0,0,0.1); 
+      border-radius:0 0 20px 20px;
+    }
+    header #user-greeting { font-size:1rem; opacity:0.9; }
+    main {
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:25px; 
+      padding:30px 40px; 
+      justify-content:center;
+    }
+    .form-card, .notifications-card {
+      background:#fff; 
+      padding:25px; 
+      border-radius:20px; 
+      box-shadow:0 10px 25px rgba(0,0,0,0.08); 
+      flex:1 1 350px; 
+      min-width:320px; 
+      transition:transform 0.3s ease, box-shadow 0.3s ease; 
+      border-left:6px solid #db9953;
+    }
+    .form-card:hover, .notifications-card:hover { 
+      transform:translateY(-3px); 
+      box-shadow:0 15px 30px rgba(0,0,0,0.15); 
+    }
+    h2 {
+      margin-bottom:20px; 
+      font-size:1.4rem; 
+      font-weight:600; 
+      color:#120c45; 
+      border-bottom:2px solid #db995333; 
+      padding-bottom:8px;
+    }
+    label { 
+      display:block; 
+      margin-top:15px; 
+      font-weight:500; 
+      font-size:0.95rem; 
+      color:#120c45; 
+    }
+    input[type="text"], select, textarea {
+      width:100%; 
+      padding:12px 15px; 
+      margin-top:6px; 
+      border-radius:12px; 
+      border:1px solid #d1d8e0; 
+      font-size:0.95rem; 
+      background:#fff; 
+      transition:border 0.2s ease, box-shadow 0.2s ease; 
+      color:#120c45;
+    }
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color:#db9953; 
+      box-shadow:0 0 8px rgba(219,153,83,0.3); 
+      outline:none;
+    }
+    textarea { height:100px; resize:vertical; }
+    button {
+      margin-top:20px; 
+      padding:12px 20px; 
+      border:none; 
+      border-radius:12px; 
+      background:#db9953; 
+      color:#fff; 
+      font-weight:600; 
+      font-size:1rem; 
+      cursor:pointer; 
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { 
+      transform:translateY(-2px); 
+      box-shadow:0 6px 20px rgba(219,153,83,0.5); 
+    }
+    #notifications { max-height:650px; overflow-y:auto; list-style:none; padding:0; }
+    #notifications li {
+      display:flex; 
+      align-items:center; 
+      margin-bottom:12px; 
+      padding:15px 18px; 
+      border-left:5px solid #db9953; 
+      border-radius:12px; 
+      background:#fff; 
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #notifications li:hover { 
+      transform:translateX(3px); 
+      box-shadow:0 5px 15px rgba(0,0,0,0.08); 
+    }
+    #notifications img {
+      width:50px; 
+      height:50px; 
+      border-radius:50%; 
+      margin-right:15px; 
+      object-fit:cover; 
+      border:2px solid #db995333;
+    }
+    .notification-content { display:flex; flex-direction:column; }
+    .notification-content .from { font-weight:600; font-size:0.95rem; color:#120c45; }
+    .notification-content .subject { font-style:italic; color:#596275; font-size:0.88rem; }
+    .notification-content .message { color:#7f8c8d; font-size:0.85rem; }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+<ul>
+    <li><a href="parentDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="parentProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="parentTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+    <li><a href="parentNotification.html" class="active"><i class="fa-solid fa-pen-to-square"></i> NOTIFICATIONS</a></li>
+    <li><a href="parentSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header>
+    Parent Notifications Dashboard
+    <span id="user-greeting"></span>
+  </header>
+
+  <main>
+    <div id="parent-form" class="form-card">
+      <h2>Send Message (Parent)</h2>
+      <label>Teacher:
+        <select id="parent-teacher"></select>
+      </label>
+      <label>Message Type:
+        <select id="parent-type">
+          <option>Complaint</option>
+          <option>Grievance</option>
+          <option>Request for Meeting</option>
+        </select>
+      </label>
+      <label>Subject:
+        <input id="parent-subject" type="text">
+      </label>
+      <label>Message:
+        <textarea id="parent-body"></textarea>
+      </label>
+      <button id="parent-send">Send</button>
+    </div>
+
+    <div class="notifications-card">
+      <h2>Notifications</h2>
+      <ul id="notifications"></ul>
+    </div>
+  </main>
+</div>
+
+<script>
+let data, currentUser, ws;
+
+// Get logged-in parent info from localStorage
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+if(!loggedInUserID || loggedInUserRole !== 'parents') {
+  alert("You are not logged in as a parent!");
+  window.location.href = "login.html";
+}
+
+// Load JSON data
+fetch('data.json')
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    currentUser = data.users.find(u => u.ID.toString() === loggedInUserID && u.role === 'parents');
+    if(!currentUser) {
+      alert("Parent not found!");
+      window.location.href = "login.html";
+      return;
+    }
+    initParent();
+  })
+  .catch(err => console.error('JSON load failed', err));
+
+function initParent() {
+  document.getElementById('user-greeting').textContent = `Logged in as ${currentUser.details.name}`;
+
+  // Populate teacher dropdown
+  const sel = document.getElementById('parent-teacher');
+  if(currentUser.details.childTeachers) {
+    currentUser.details.childTeachers.forEach(tName => {
+      const [name] = tName.split(" - ");
+      const t = data.users.find(u => u.role === 'teacher' && u.details.name === name.trim());
+      if(t) {
+        const o = document.createElement('option');
+        o.value = t.ID;
+        o.textContent = tName;
+        sel.appendChild(o);
+      }
+    });
+  }
+
+  // WebSocket connection
+  ws = new WebSocket('ws://localhost:8080');
+  ws.onopen = () => {
+    ws.send(JSON.stringify({
+      type: 'register',
+      id: String(currentUser.ID),
+      userType: currentUser.role,
+      name: currentUser.details.name,
+      avatar: currentUser.details.profilePic
+    }));
+  };
+
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    if(msg.type === 'message' && (String(msg.to) === String(currentUser.ID) || msg.to === 'all')) {
+      addNotification(msg.from, msg.subject, msg.message, msg.avatar);
+    }
+  };
+
+  function addNotification(from, subject, message, avatar) {
+    const ul = document.getElementById('notifications');
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <img src="${avatar}" alt="avatar">
+      <div class="notification-content">
+        <span class="from">${from}</span>
+        <span class="subject">${subject}</span>
+        <span class="message">${message}</span>
+      </div>
+    `;
+    ul.prepend(li);
+  }
+
+  // Send message
+  document.getElementById('parent-send').addEventListener('click', () => {
+    const tID = String(document.getElementById('parent-teacher').value);
+    const tObj = data.users.find(u => u.ID.toString() === tID);
+    if(!tObj) return alert("Teacher not found!");
+    const sub = document.getElementById('parent-subject').value.trim();
+    const msg = document.getElementById('parent-body').value.trim();
+    if(!sub || !msg) return alert("Fill subject and message!");
+
+    ws.send(JSON.stringify({
+      type: 'message',
+      from: currentUser.details.name,
+      to: tID,
+      subject: sub,
+      message: msg,
+      avatar: currentUser.details.profilePic
+    }));
+
+    addNotification(`You → ${tObj.details.name}`, sub, msg, currentUser.details.profilePic);
+    document.getElementById('parent-subject').value = '';
+    document.getElementById('parent-body').value = '';
+  });
+}
+</script>
+</body>
+</html>

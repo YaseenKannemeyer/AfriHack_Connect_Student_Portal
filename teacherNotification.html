@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Notifications - Empiras Vanguard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      display:flex;
+      min-height:100vh;
+      background:#120c45;
+      font-family:'Inter', sans-serif;
+    }
+
+    /* Inputs, dropdowns, textarea consistent sizing */
+    input, select, textarea {
+      width: 100%; 
+      padding: 12px 15px; 
+      margin-top: 6px; 
+      border-radius: 12px; 
+      border: 1px solid #d1d8e0; 
+      font-size: 0.95rem; 
+      background: #fff; 
+      color: #120c45;
+      height: 45px; 
+      resize: none; 
+      box-sizing: border-box;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color:#db9953; 
+      box-shadow:0 0 8px rgba(219,153,83,0.3); 
+      outline:none;
+    }
+    textarea { height:100px; }
+
+    /* Sidebar */
+    .nav-bar {
+      width:220px; 
+      background:#120C45; 
+      color:#fff; 
+      display:flex; 
+      flex-direction:column; 
+      padding:20px 0; 
+      flex-shrink:0;
+    }
+    .nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+    .nav-bar .logo-container img { width:120px; height:auto; }
+    .nav-bar ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; }
+    .nav-bar ul li { margin:10px 0; }
+    .nav-bar ul li a {
+      display:flex; 
+      align-items:center; 
+      color:#fff; 
+      text-decoration:none; 
+      font-weight:600; 
+      padding:10px 20px; 
+      border-radius:8px; 
+      transition:all .3s;
+    }
+    .nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+    .nav-bar ul li a:hover, .nav-bar ul li a.active {
+      background:#db9953; 
+      color:#120C45; 
+      transform:translateX(5px);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex-grow:1;
+      display:flex;
+      flex-direction:column;
+      background:#f5f5f5;
+    }
+    header {
+      background:#db9953; 
+      color:#fff; 
+      padding:20px 40px; 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      font-size:1.5rem; 
+      box-shadow:0 5px 15px rgba(0,0,0,0.1); 
+      border-radius:0 0 20px 20px;
+    }
+    header #user-greeting { font-size:1rem; opacity:0.9; }
+    main {
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:25px; 
+      padding:30px 40px; 
+      justify-content:center;
+    }
+
+    /* Cards */
+    .card {
+      background:#fff; 
+      padding:25px; 
+      border-radius:20px; 
+      box-shadow:0 10px 25px rgba(0,0,0,0.08); 
+      flex:1 1 350px; 
+      min-width:320px; 
+      transition:transform 0.3s ease, box-shadow 0.3s ease; 
+      border-left:6px solid #db9953;
+      color:#120c45;
+    }
+    .card:hover { 
+      transform:translateY(-3px); 
+      box-shadow:0 15px 30px rgba(0,0,0,0.15); 
+    }
+    h2 {
+      margin-bottom:20px; 
+      font-size:1.4rem; 
+      font-weight:600; 
+      border-bottom:2px solid #db995333; 
+      padding-bottom:8px;
+    }
+    label { 
+      display:block; 
+      margin-top:12px; 
+      font-weight:500; 
+      font-size:0.95rem; 
+    }
+    button {
+      margin-top:20px; 
+      padding:12px 20px; 
+      border:none; 
+      border-radius:12px; 
+      background:#db9953; 
+      color:#fff; 
+      font-weight:600; 
+      font-size:1rem; 
+      cursor:pointer; 
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { 
+      transform:translateY(-2px); 
+      box-shadow:0 6px 20px rgba(219,153,83,0.5); 
+    }
+
+    /* Notifications List */
+    #notifications { max-height:600px; overflow-y:auto; list-style:none; padding:0; }
+    #notifications li {
+      display:flex; 
+      align-items:center; 
+      margin-bottom:12px; 
+      padding:15px; 
+      border-left:5px solid #db9953; 
+      border-radius:12px; 
+      background:#fff; 
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #notifications li:hover { 
+      transform:translateX(3px); 
+      box-shadow:0 5px 15px rgba(0,0,0,0.08); 
+    }
+    #notifications img {
+      width:50px; 
+      height:50px; 
+      border-radius:50%; 
+      margin-right:15px; 
+      object-fit:cover; 
+      border:2px solid #db995333;
+    }
+    
+    .notification-content { display:flex; flex-direction:column; }
+    .notification-content .from { font-weight:600; font-size:0.95rem; color:#120c45; }
+    .notification-content .subject { font-style:italic; font-size:0.88rem; color:#596275; }
+    .notification-content .message { font-size:0.85rem; color:#7f8c8d; }
+
+    input[type="checkbox"] {
+  width: auto;          /* remove full width */
+  height: auto;         /* remove forced height */
+  padding: 0;           /* remove padding */
+  margin-right: 8px;    /* space between box and text */
+  vertical-align: middle; /* align with text */
+  transform: scale(1.2); /* optional, slightly bigger box */
+  border-radius: 4px;   /* optional, small rounding */
+  border: 1px solid #d1d8e0; /* consistent border */
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="teacherDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="teacherProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="teacherTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+    <li><a href="teacherNotification.html" class="active"><i class="fa-solid fa-bell"></i> NOTIFICATIONS</a></li>
+    <li><a href="teacherSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header>
+    Teacher Notifications
+    <span id="user-greeting"></span>
+  </header>
+
+  <main>
+    <!-- Messaging Card -->
+    <div class="card">
+      <h2>Send Message</h2>
+      <label><input type="checkbox" id="send-all"> Send to All Parents</label>
+      <label>Class:
+        <select id="teacher-class"></select>
+      </label>
+      <label>Student ID:
+        <input type="text" id="student-search" placeholder="Enter student ID...">
+      </label>
+      <label>Subject:
+        <input id="teacher-subject" type="text">
+      </label>
+      <label>Message:
+        <textarea id="teacher-body"></textarea>
+      </label>
+      <button id="teacher-send">Send</button>
+    </div>
+
+    <!-- Notifications Card -->
+    <div class="card">
+      <h2>Notifications</h2>
+      <ul id="notifications"></ul>
+    </div>
+  </main>
+</div>
+
+<script>
+let data, currentUser, ws;
+
+// Get logged in user info from localStorage
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+if(!loggedInUserID || !loggedInUserRole) {
+  alert("You are not logged in!");
+  window.location.href = "login.html";
+}
+
+// Load JSON data
+fetch('data.json')
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    currentUser = data.users.find(u => u.ID.toString() === loggedInUserID && u.role === loggedInUserRole);
+    if(!currentUser) {
+      alert("User not found!");
+      window.location.href = "login.html";
+      return;
+    }
+    initTeacher();
+  })
+  .catch(err => console.error('JSON load failed', err));
+
+function initTeacher() {
+  document.getElementById('user-greeting').textContent = `Logged in as ${currentUser.details.name}`;
+
+  // Populate classes dropdown
+  const sel = document.getElementById('teacher-class');
+  if(currentUser.details.classes) {
+    currentUser.details.classes.forEach(c => {
+      const o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+  }
+
+  // WebSocket connection
+  ws = new WebSocket('ws://localhost:8080');
+  ws.onopen = () => {
+    ws.send(JSON.stringify({
+      type: 'register',
+      id: String(currentUser.ID),
+      userType: currentUser.role,
+      name: currentUser.details.name,
+      avatar: currentUser.details.profilePic
+    }));
+  };
+
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    if(msg.type === 'message' && (String(msg.to) === String(currentUser.ID) || msg.to === 'all')) {
+      addNotification(msg.from, msg.subject, msg.message, msg.avatar);
+    }
+  };
+
+  function addNotification(from, subject, message, avatar) {
+    const ul = document.getElementById('notifications');
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <img src="${avatar}" alt="avatar">
+      <div class="notification-content">
+        <span class="from">${from}</span>
+        <span class="subject">${subject}</span>
+        <span class="message">${message}</span>
+      </div>
+    `;
+    ul.prepend(li);
+  }
+
+  // Send message
+  document.getElementById('teacher-send').addEventListener('click', () => {
+    const toAll = document.getElementById('send-all').checked;
+    let recipient = 'all', rName = 'All Parents';
+
+    if(!toAll) {
+      const sID = document.getElementById('student-search').value.trim();
+      if(!sID) return alert("Enter student ID!");
+      const p = data.users.find(u => u.role === 'parents' && u.details.childID == sID);
+      if(!p) return alert("Student not found!");
+      recipient = String(p.ID);
+      rName = p.details.name;
+    }
+
+    const sub = document.getElementById('teacher-subject').value.trim();
+    const msg = document.getElementById('teacher-body').value.trim();
+    if(!sub || !msg) return alert("Fill subject and message!");
+
+    ws.send(JSON.stringify({
+      type:'message',
+      from: currentUser.details.name,
+      to: recipient,
+      subject: sub,
+      message: msg,
+      avatar: currentUser.details.profilePic
+    }));
+
+    addNotification(`You → ${rName}`, sub, msg, currentUser.details.profilePic);
+
+    document.getElementById('teacher-subject').value = '';
+    document.getElementById('teacher-body').value = '';
+    document.getElementById('student-search').value = '';
+    document.getElementById('send-all').checked = false;
+  });
+}
+</script>
+</body>
+</html>

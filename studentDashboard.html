@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empiras Vanguard</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+/* Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; }
+.nav-bar ul li { margin:10px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover, .nav-bar ul li a.active { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+.main-content { flex-grow:1; display:flex; flex-direction:column; overflow-y:auto; }
+
+/* Welcome Header */
+.image-container { text-align:left; margin:25px 0; }
+.image-container h2 { color:#120C45; font-size:2rem; margin-bottom:15px; }
+.image-container ul { list-style:none; display:flex; justify-content:left; gap:15px; flex-wrap:wrap; }
+.image-container ul li button {
+  padding:12px 25px; background:#db9953; border:none; border-radius:12px; color:#fff; font-weight:600; cursor:pointer; transition:all .3s;
+}
+.image-container ul li button:hover { background:#120C45; transform:scale(1.05); }
+
+/* Section Headers */
+.content h1 { color:#120C45; margin-bottom:15px; font-size:1.5rem; display:none; }
+.content h1.active { display:block; }
+
+/* Sections */
+.section { display:none; margin-bottom:30px; }
+.section.active { display:block; }
+
+/* Subject Cards */
+.subject, .curricular, .event {
+  background:#fff; padding:18px 20px; border-radius:12px; box-shadow:0 6px 20px rgba(18,12,69,0.08); margin-bottom:15px; transition:all .3s;
+}
+.subject:hover, .curricular:hover, .event:hover { transform:translateY(-3px); box-shadow:0 12px 25px rgba(18,12,69,0.12); }
+.subject p, .curricular p, .event p { margin:5px 0; color:#120C45; font-weight:500; }
+
+/* Progress Bars */
+.progress { background:#e5e5e5; border-radius:10px; height:15px; position:relative; margin-top:5px; }
+.progress-fill { background:#db9953; height:100%; border-radius:10px; position:relative; transition:width .6s ease; }
+.progress-text { position:absolute; right:10px; top:0; font-size:.8rem; font-weight:bold; color:#120C45; }
+
+/* Extra Curricular Section Container */
+#extracurricular {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* centers cards horizontally */
+  gap: 20px; /* spacing between cards */
+  padding: 20px 0;
+}
+
+/* Extra Curricular Cards - Larger */
+.curricular {
+  width: 400px; /* bigger width */
+  text-align: center;
+  margin: 15px;
+}
+
+.curricular img {
+  width: 100%;
+  border-radius: 12px;
+  height: 200px; /* bigger image height */
+  object-fit: cover;
+}
+
+.curricular p {
+  font-size: 1.1rem; /* slightly bigger text */
+  font-weight: 600;
+  margin-top: 8px;
+  color: #120C45;
+}
+
+
+
+/* Events */
+.event h2 { font-size:1.2rem; margin-bottom:5px; }
+.event p { font-size:.9rem; color:#555; }
+
+/* Responsive */
+@media(max-width:900px){
+  .image-container ul {  align-items:left; }
+  .curricular { width:45%; }
+  .curricular img { height:120px; }
+}
+@media(max-width:600px){
+  .curricular { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+      <li><a href="studentDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+      <li><a href="studentProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+      <li><a href="studentTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+      <li><a href="studentSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+    </ul>
+</nav>
+
+<div class="main-content">
+  <div class="image-container">
+    <h2>WELCOME TO THE HOME PAGE</h2>
+    <ul>
+      <li><button onclick="showSection('academics')">Academics</button></li>
+      <li><button onclick="showSection('extracurricular')">Extra Curricular</button></li>
+      <li><button onclick="showSection('upcoming-events')">Upcoming Events</button></li>
+    </ul>
+  </div>
+
+  <div class="subnav-bar">
+    <div class="content">
+      <!-- Section Headers -->
+      <h1 id="header-academics" class="active">Subjects</h1>
+      <h1 id="header-extracurricular">Extra Curriculars</h1>
+      <h1 id="header-events">Upcoming Events</h1>
+
+     <!-- Academics Section -->
+<div id="academics" class="section active">
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> English</p>
+        <p>Mr L Nadioo</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:45%"></div>
+            <span class="progress-text">45%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Afrikaans</p>
+        <p>Mrs C Gerber</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:69%"></div>
+            <span class="progress-text">69%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Physical Science</p>
+        <p>Mr A Mahlangu</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:75%"></div>
+            <span class="progress-text">75%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Life Science</p>
+        <p>Miss RT Mahlangu</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:85%"></div>
+            <span class="progress-text">85%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Mathematics</p>
+        <p>Mr K Oyekami</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:65%"></div>
+            <span class="progress-text">65%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Computer Application Technology</p>
+        <p>Miss S Swart</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:70%"></div>
+            <span class="progress-text">70%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Life Orientation</p>
+        <p>Mrs B Ngquke</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:90%"></div>
+            <span class="progress-text">90%</span>
+        </div>
+    </div>
+    <div class="subject">
+        <p><i class="fa-solid fa-book"></i> Geography</p>
+        <p>Mr J Kong</p>
+        <div class="progress">
+            <div class="progress-fill" style="width:45%"></div>
+            <span class="progress-text">45%</span>
+        </div>
+    </div>
+</div>
+
+
+      <!-- Extra Curricular Section -->
+      <div id="extracurricular" class="section">
+        <div class="curricular">
+            <img src="netball.jpg" alt="Netball">
+            <p>Netball</p>
+        </div>
+        <div class="curricular">
+            <img src="cheerleading.jpg" alt="Cheerleading">
+            <p>Cheerleading</p>
+        </div>
+        <div class="curricular">
+            <img src="swimming.jpg" alt="Swimming">
+            <p>Swimming</p>
+        </div>
+        <div class="curricular">
+            <img src="hockey.jpg" alt="Hockey">
+            <p>Hockey</p>
+        </div>
+      </div>
+
+      <!-- Upcoming Events Section -->
+      <div id="upcoming-events" class="section">
+        <div class="event">
+            <h2>Mathematics Term 3 Test</h2>
+            <p>Date: 24 July 2025</p>
+            <p>Time: 09:00</p>
+        </div>
+        <div class="event">
+            <h2>Hockey Match Game</h2>
+            <p>Date: 29 July 2025</p>
+            <p>Time: 15:00</p>
+        </div>
+        <div class="event">
+            <h2>English Prepared Speech</h2>
+            <p>Date: 06 August 2025</p>
+            <p>Time: 13:00</p>
+        </div>
+        <div class="event">
+            <h2>English Paper 2 Test</h2>
+            <p>Date: 12 August 2025</p>
+            <p>Time: 10:00</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.content h1').forEach(h => h.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  // Show correct header
+  if(id === 'upcoming-events') document.getElementById('header-events').classList.add('active');
+  else document.getElementById('header-' + id).classList.add('active');
+}
+
+</script>
+
+<script>
+// Only update the welcome heading dynamically
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+if(loggedInUserRole === "student" && loggedInUserID){
+  fetch('data.json')
+    .then(res => res.json())
+    .then(data => {
+      const student = data.users.find(u => u.ID.toString() === loggedInUserID && u.role === "student");
+      if(student){
+        const welcome = document.querySelector('.image-container h2');
+        welcome.textContent = `WELCOME ${student.details.name.toUpperCase()}`;
+      }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
+
+</body>
+</html>

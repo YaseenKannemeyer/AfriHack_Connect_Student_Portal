@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parent Tools Dashboard</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+/* Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; }
+.nav-bar ul li { margin:15px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+main { flex-grow:1; padding:30px; overflow-y:auto; }
+
+/* Header */
+header { display:flex; flex-direction:column; gap:4px; margin-bottom:25px; }
+.user-name { font-weight:700; font-size:1.8rem; color:#120C45; }
+.user-info { font-size:.9rem; color:#555; }
+
+/* Section Buttons */
+.section-buttons { display:flex; gap:15px; margin-bottom:25px; flex-wrap:wrap; }
+.section-buttons button {
+  padding:12px 25px; background:#db9953; border:none; border-radius:12px; color:#fff; font-weight:600; cursor:pointer; transition:all .3s;
+}
+.section-buttons button:hover { background:#120C45; transform:scale(1.05); }
+
+/* Sections */
+.section { display:none; margin-bottom:30px; }
+.section.active { display:block; }
+
+/* Cards */
+.card {
+  background:#fff; padding:20px; border-radius:12px; font-weight:600; cursor:pointer;
+  box-shadow:0 6px 20px rgba(18,12,69,0.1); color:#120C45; position:relative; transition:all .3s;
+  border-left:6px solid #db9953; display:flex; flex-direction:column; justify-content:center;
+}
+.card:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 12px 25px rgba(18,12,69,0.15); }
+.card h3 { margin-bottom:8px; font-size:1.2rem; }
+.card p { font-size:.95rem; color:#555; line-height:1.4; }
+.card img { border-radius:10px; width:100%; height:150px; object-fit:cover; margin-top:10px; }
+
+/* Progress Bars */
+.progress { background:#e5e5e5; border-radius:10px; height:15px; position:relative; margin-top:5px; }
+.progress-fill { background:#db9953; height:100%; border-radius:10px; transition:width .6s ease; }
+.progress-text { position:absolute; right:10px; top:0; font-size:.8rem; font-weight:bold; color:#120C45; }
+
+/* Grid Layout */
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+
+/* Attendance Chart */
+.chart-container { position:relative; width:130px; height:130px; margin:0 auto; }
+.chart { width:130px; height:130px; transform:rotate(-90deg); }
+.circle-bg { fill:none; stroke:#e5e7eb; stroke-width:3; }
+.circle-progress { fill:none; stroke:#db9953; stroke-width:3; stroke-linecap:round; transition:stroke-dasharray 1s ease; }
+.chart-value { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; font-size:28px; font-weight:bold; color:#db9953; }
+.subtitle { text-align:center; font-size:.9rem; color:#555; margin-bottom:12px; }
+
+/* Attendance Details */
+.details { margin-top:10px; }
+.row { display:flex; justify-content:space-between; padding:6px 0; font-size:.9rem; }
+.green { color:#198754; font-weight:600; }
+.red { color:#dc2626; font-weight:600; }
+.yellow { color:#ca8a04; font-weight:600; }
+
+/* Messages / Feedback */
+.messages-section { background:#fff; padding:25px; border-radius:12px; box-shadow:0 6px 20px rgba(18,12,69,0.08); }
+.messages-section textarea { width:100%; padding:15px; border:1px solid #ccc; border-radius:12px; margin-bottom:12px; resize:vertical; font-size:1rem; }
+.messages-section button { background:#db9953; color:#fff; padding:12px 25px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; transition:all .3s; }
+.messages-section button:hover { background:#120C45; transform:translateY(-2px) scale(1.02); }
+.confirmation { margin-top:12px; font-weight:bold; font-size:.95rem; display:none; }
+
+/* Calendar & Events */
+.events-list { display:flex; flex-direction:column; gap:12px; margin-top:15px; }
+.event-card { display:flex; align-items:flex-start; border-radius:10px; padding:10px 14px; box-shadow:0 4px 12px rgba(18,12,69,0.05); }
+.event-card .event-date { min-width:50px; font-weight:700; font-size:.85rem; margin-right:12px; text-align:center; border-radius:5px; padding:4px 0; }
+.event-card.event-light-red { background:#fae8ea; border-left:4px solid #e14343; }
+.event-card.event-blue { background:#eceefe; border-left:4px solid #3186ff; }
+.event-card.event-green { background:#e8faea; border-left:4px solid #46bc50; }
+.event-details { font-size:.85rem; color:#555; }
+.calendar { width:100%; border-collapse:collapse; margin-top:10px; }
+.calendar th, .calendar td { text-align:center; padding:10px; font-size:.9rem; }
+.calendar td.event-light-red { background:#fae8ea; color:#e14343; font-weight:700; border-radius:6px; }
+.calendar td.event-blue { background:#eceefe; color:#3186ff; font-weight:700; border-radius:6px; }
+
+/* Responsive */
+@media(max-width:900px){ .section-buttons { flex-direction:column; align-items:flex-start; } .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<!-- Side Nav -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="parentDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="parentProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="parentTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+        <li><a href="parentNotification.html"><i class="fa-solid fa-pen-to-square"></i> NOTIFICATIONS</a></li>
+    <li><a href="parentSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<main>
+  <header>
+  <span class="user-name"></span>
+  <span class="user-info"></span>
+</header>
+
+  <!-- Section Buttons -->
+  <div class="section-buttons">
+    <button onclick="showSection('academics')">Academics</button>
+    <button onclick="showSection('attendance')">Attendance</button>
+    <button onclick="showSection('extracurricular')">Extra Curricular</button>
+    <button onclick="showSection('calendarEvents')">Calendar & Events</button>
+    <button onclick="showSection('messages')">Messages</button>
+  </div>
+
+  <!-- Academics Section -->
+  <div id="academics" class="section active grid">
+    <div class="card">
+      <h3>Mathematics</h3>
+      <p>Latest Grade: 85%</p>
+      <div class="progress"><div class="progress-fill" style="width:85%;"></div><span class="progress-text">85%</span></div>
+    </div>
+    <div class="card">
+      <h3>English</h3>
+      <p>Latest Grade: 78%</p>
+      <div class="progress"><div class="progress-fill" style="width:78%;"></div><span class="progress-text">78%</span></div>
+    </div>
+    <div class="card">
+      <h3>Science</h3>
+      <p>Latest Grade: 90%</p>
+      <div class="progress"><div class="progress-fill" style="width:90%;"></div><span class="progress-text">90%</span></div>
+    </div>
+  </div>
+
+  <!-- Attendance Section -->
+  <div id="attendance" class="section grid">
+    <div class="card">
+      <h3>Attendance Overview</h3>
+      <div class="chart-container">
+        <svg class="chart" viewBox="0 0 36 36">
+          <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          <path class="circle-progress" stroke-dasharray="90, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+        </svg>
+        <div class="chart-value">90%</div>
+      </div>
+      <p class="subtitle">Overall Attendance</p>
+      <div class="details">
+        <div class="row"><span>Present</span><span class="green">180</span></div>
+        <div class="row"><span>Absent</span><span class="red">20</span></div>
+        <div class="row"><span>Late</span><span class="yellow">5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extra Curricular Section -->
+  <div id="extracurricular" class="section grid">
+    <div class="card">
+      <h3>Basketball Team</h3>
+      <p>Alex attends practice every Monday and Wednesday</p>
+      <img src="basketball.jpg" alt="Basketball">
+    </div>
+    <div class="card">
+      <h3>Choir</h3>
+      <p>Alex participates in monthly performances</p>
+      <img src="choir.jpg" alt="Choir">
+    </div>
+  </div>
+
+  <!-- Calendar & Events Section -->
+  <div id="calendarEvents" class="section grid">
+    <div class="card">
+      <h3>Upcoming School Events</h3>
+      <div class="events-list">
+        <div class="event-card event-light-red">
+          <span class="event-date">Aug 12</span>
+          <div><strong>Math Test</strong><div class="event-details">10:00 AM - Room 12</div></div>
+        </div>
+        <div class="event-card event-blue">
+          <span class="event-date">Aug 20</span>
+          <div><strong>Parent Meeting</strong><div class="event-details">3:00 PM • Zoom</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages Section -->
+  <div id="messages" class="section grid">
+    <div class="messages-section">
+      <h3>Send a Message to the Teacher / School</h3>
+      <textarea id="messageText" placeholder="Write your message here..."></textarea>
+      <button id="sendBtn">Send</button>
+      <div class="confirmation" id="confirmationMsg"></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Messaging functionality
+const sendBtn = document.getElementById('sendBtn');
+const messageText = document.getElementById('messageText');
+const confirmationMsg = document.getElementById('confirmationMsg');
+
+sendBtn.addEventListener('click', ()=>{
+  if(messageText.value.trim()!==""){
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='green';
+    confirmationMsg.textContent='Your message has been sent successfully ✅';
+    messageText.value='';
+    setTimeout(()=>{confirmationMsg.style.display='none';},4000);
+  } else {
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='red';
+    confirmationMsg.textContent='Please write a message before sending ❗';
+    setTimeout(()=>{confirmationMsg.style.display='none';},3000);
+  }
+});
+
+// Get logged in user info from localStorage
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+// Ensure a user is logged in
+if (!loggedInUserID || !loggedInUserRole) {
+  alert("You are not logged in!");
+  window.location.href = "login.html"; // redirect to login
+}
+
+// Fetch JSON data
+fetch('data.json')
+  .then(response => response.json())
+  .then(data => {
+    const user = data.users.find(u =>
+      u.ID.toString() === loggedInUserID && u.role === loggedInUserRole
+    );
+
+    if (!user) {
+      alert("User not found!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    // Populate dashboard based on role
+    populateDashboard(user);
+  })
+  .catch(err => console.error("Error loading JSON:", err));
+
+function populateDashboard(user) {
+  // Common fields
+  const userNameEl = document.querySelector('.user-name');
+  const userInfoEl = document.querySelector('.user-info');
+
+  if (user.role === "student") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `Grade ${user.details.grade} · Learner ID: ${user.ID}`;
+
+    // Academic section
+    const academicsEl = document.getElementById('academics');
+    academicsEl.innerHTML = ''; // clear default cards
+    for (const [subject, grade] of Object.entries(user.details.grades)) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${capitalize(subject)}</h3>
+        <p>Current grade: ${grade}%</p>
+        <div class="progress">
+          <div class="progress-fill" style="width:${grade}%;"></div>
+          <span class="progress-text">${grade}%</span>
+        </div>
+      `;
+      academicsEl.appendChild(card);
+    }
+
+    // Extra Curricular section
+    const extraEl = document.getElementById('extracurricular');
+    extraEl.innerHTML = '';
+    user.details.extracurricular.forEach(activity => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${activity}</h3>`;
+      extraEl.appendChild(card);
+    });
+
+  } else if (user.role === "parents") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `${user.details.relationship} · Child: ${user.details.child}`;
+
+    // Academic section (child's grades)
+    const academicsEl = document.getElementById('academics');
+    academicsEl.innerHTML = '';
+    for (const [subject, grade] of Object.entries(user.details.childGrades)) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${capitalize(subject)}</h3>
+        <p>Current grade: ${grade}%</p>
+        <div class="progress">
+          <div class="progress-fill" style="width:${grade}%;"></div>
+          <span class="progress-text">${grade}%</span>
+        </div>
+      `;
+      academicsEl.appendChild(card);
+    }
+
+    // Extra Curricular (child)
+    const extraEl = document.getElementById('extracurricular');
+    extraEl.innerHTML = '';
+    if (user.details.childExtracurricular) {
+      user.details.childExtracurricular.forEach(activity => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<h3>${activity}</h3>`;
+        extraEl.appendChild(card);
+      });
+    }
+
+  } else if (user.role === "teacher") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `${user.details.department} Department · ID: ${user.ID}`;
+
+    // Academic section (subjects)
+    const academicsEl = document.getElementById('academics');
+    academicsEl.innerHTML = '';
+    user.details.subjects.forEach(subj => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${subj}</h3>`;
+      academicsEl.appendChild(card);
+    });
+
+    // Extra Curricular section (classes)
+    const extraEl = document.getElementById('extracurricular');
+    extraEl.innerHTML = '';
+    user.details.classes.forEach(cls => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${cls}</h3>`;
+      extraEl.appendChild(card);
+    });
+  }
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+</script>
+
+</body>
+</html>

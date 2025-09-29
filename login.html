@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login - UMT Student Portal</title>
+<style>
+  /* Body & Background */
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #120c45 70%, #db9953 30%);
+    overflow: hidden;
+  }
+
+  /* Login Container */
+  .login-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    max-width: 28rem;
+    width: 100%;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Logo & Title */
+  .login-logo {
+    display: block;
+    margin: 0 auto 1rem auto;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #db9953;
+  }
+
+  .login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #120c45;
+    margin-bottom: 0.25rem;
+  }
+
+  .login-subtitle {
+    color: #333;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Form Elements */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+.login-input,
+.dropdown-select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #db9953;
+  outline: none;
+  font-size: 1rem;
+  background: #ffffff;
+  color: #120c45;
+  box-sizing: border-box; /* ensures borders/padding don’t change width */
+  appearance: none;       /* makes dropdown look consistent across browsers */
+}
+
+
+  .login-input::placeholder,
+  .dropdown-select option {
+    color: #666;
+  }
+
+  .login-input:focus, .dropdown-select:focus {
+    border-color: #120c45;
+    box-shadow: 0 0 8px rgba(18,12,69,0.5);
+  }
+
+  /* Dropdown */
+  .user-type-dropdown {
+    margin-bottom: 1rem;
+  }
+
+  /* Button */
+  .login-button {
+    padding: 0.65rem 0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background: #db9953;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(219,153,83,0.4);
+  }
+
+  .login-button:hover {
+    background: #120c45;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(18,12,69,0.6);
+  }
+
+  /* Forgot Password */
+  .text-right {
+    text-align: right;
+  }
+
+  .text-right a {
+    font-size: 0.9rem;
+    color: #120c45;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .text-right a:hover {
+    color: #db9953;
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .login-container {
+      padding: 2rem 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="logo.jpg" alt="Logo" class="login-logo" />
+    <h1 class="login-title">Empiras Learner Portal</h1>
+    <p class="login-subtitle">Sign in to your account</p>
+
+    <div class="user-type-dropdown">
+      <select name="user-type" required class="dropdown-select">
+        <option value="" disabled selected>Sign in as</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="parents">Parents</option>
+      </select>
+    </div>
+
+    <form action="#" method="POST" class="login-form">
+      <input type="text" name="ID" placeholder="ID number" required class="login-input" />
+      <input type="password" name="password" placeholder="Password" required class="login-input" />
+      <div class="text-right mb-4">
+        <a href="forgot.html">Forgot your password?</a>
+      </div>
+      <button type="submit" class="login-button">Sign in</button>
+    </form>
+  </div>
+
+  <script>
+  const loginForm = document.querySelector('.login-form');
+  const userTypeDropdown = document.querySelector('.dropdown-select');
+
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const selectedRole = userTypeDropdown.value;
+    const ID = loginForm.ID.value.trim();
+    const password = loginForm.password.value.trim();
+
+    if (!selectedRole) {
+      alert("Please select a user type");
+      return;
+    }
+
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const user = data.users.find(u =>
+          u.role === selectedRole &&
+          u.ID.toString() === ID &&
+          u.password === password
+        );
+
+        if (user) {
+          // Save session
+          localStorage.setItem("loggedInUserID", user.ID);
+          localStorage.setItem("loggedInUserRole", user.role);
+
+          // Check fee status
+          let paidFees = true;
+          if (user.role === "student") {
+            paidFees = user.details.paidFees;
+          } else if (user.role === "parents") {
+            paidFees = user.details.paidFees;
+          }
+
+          if (!paidFees) {
+            // Redirect to fee payment page
+            window.location.href = "feesDue.html";
+          } else {
+            // Normal dashboards
+            if (user.role === "student") window.location.href = "studentDashboard.html";
+            else if (user.role === "teacher") window.location.href = "teacherDashboard.html";
+            else window.location.href = "parentDashboard.html";
+          }
+
+        } else {
+          alert("Invalid ID or password");
+        }
+      })
+      .catch(err => console.error("Error loading JSON:", err));
+  });
+</script>
+
+</body>
+</html>

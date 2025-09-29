@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teacher Profile - Empiras Vanguard</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; }
+.nav-bar ul li { margin:10px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover, .nav-bar ul li a.active { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+.main-content { flex-grow:1; display:flex; flex-direction:column; overflow-y:auto; padding:20px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="teacherDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="teacherProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="teacherTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+        <li><a href="teacherNotification.html"><i class="fa-solid fa-pen-to-square"></i> NOTIFICATIONS</a></li>
+    <li><a href="teacherSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<!-- Main Profile Content -->
+<div class="main-content">
+
+  <!-- Profile Header -->
+  <div class="bg-white shadow-xl rounded-2xl p-8 mb-8 flex flex-col md:flex-row items-center md:items-start 
+              space-y-6 md:space-y-0 md:space-x-8 hover:shadow-2xl hover:scale-[1.01] transition-all border-t-8 border-[#db9953]">
+    <div class="relative">
+      <img id="profilePic" src="icon.jpg"  alt="Profile Picture"
+           class="w-32 h-32 rounded-full border-4 border-[#db9953] shadow-lg object-cover transition-transform duration-300 hover:scale-105">
+      <div class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+    </div>
+    <div class="text-center md:text-left">
+      <h1 id="teacherName" class="text-4xl font-extrabold text-[#120c45] tracking-tight">Loading...</h1>
+      <p id="teacherDept" class="text-gray-600 mt-2 text-lg">Department: --</p>
+      <p id="teacherSubjects" class="text-gray-600 text-lg">Subjects: --</p>
+      <p id="teacherEmail" class="text-gray-600 text-lg">Email: --</p>
+    </div>
+  </div>
+
+  <!-- Info Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Classes Assigned -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Classes Assigned</h2>
+      <ul id="classesList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+    </div>
+
+    <!-- Schedule / Timetable -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all overflow-x-auto">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Schedule</h2>
+      <table class="w-full border-collapse text-center min-w-[400px]">
+        <thead class="bg-[#db9953] text-white">
+          <tr>
+            <th class="p-3 border">Day</th>
+            <th class="p-3 border">Period</th>
+            <th class="p-3 border">Subject</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleTable" class="text-gray-700"></tbody>
+      </table>
+    </div>
+
+    <!-- Qualifications & Experience -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Qualifications & Experience</h2>
+      <p id="teacherQualifications" class="text-gray-700 text-lg">--</p>
+    </div>
+
+    <!-- Performance / Feedback -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Performance / Feedback</h2>
+      <canvas id="feedbackChart" height="120"></canvas>
+    </div>
+
+    <!-- Resources Shared -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Resources Shared</h2>
+      <ul id="resourcesList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+    </div>
+
+    <!-- Announcements / Posts -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Announcements / Posts</h2>
+      <ul id="announcementsList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+async function loadTeacherProfile() {
+  const res = await fetch("data.json");
+  const data = await res.json();
+
+  const loggedInID = parseInt(localStorage.getItem("loggedInUserID"));
+  const teacher = data.users.find(u => u.role === "teacher" && u.ID === loggedInID);
+
+  if (!teacher) { alert("Teacher not found!"); return; }
+
+  // Basic Info
+  document.getElementById("teacherName").textContent = teacher.details.name;
+  document.getElementById("teacherDept").textContent = "Department: " + (teacher.details.department || "N/A");
+  document.getElementById("teacherSubjects").textContent = "Subjects: " + (teacher.details.subjects?.join(", ") || teacher.details.subject || "N/A");
+  document.getElementById("teacherEmail").textContent = "Email: " + (teacher.details.email || "N/A");
+
+  // Classes Assigned
+  const classesList = document.getElementById("classesList");
+  (teacher.details.classes || ["Grade 9 - Science", "Grade 10 - Biology"]).forEach(cls => {
+    const li = document.createElement("li");
+    li.textContent = cls;
+    classesList.appendChild(li);
+  });
+
+  // Schedule
+  const scheduleTable = document.getElementById("scheduleTable");
+  (teacher.details.schedule || [
+    {day: "Monday", period: "1", subject: "Science"},
+    {day: "Wednesday", period: "3", subject: "Biology"}
+  ]).forEach(s => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="border p-2">${s.day}</td>
+                    <td class="border p-2">${s.period}</td>
+                    <td class="border p-2">${s.subject}</td>`;
+    scheduleTable.appendChild(tr);
+  });
+
+  // Qualifications
+  document.getElementById("teacherQualifications").textContent =
+    teacher.details.qualifications || "B.Ed in Science, 10 years experience";
+
+  // Feedback Chart
+  const ctx = document.getElementById("feedbackChart");
+  new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: ["Knowledge", "Clarity", "Engagement", "Support", "Fairness"],
+      datasets: [{
+        label: "Feedback Ratings",
+        data: teacher.details.feedback || [4, 5, 4, 5, 4],
+        backgroundColor: "rgba(219,153,83,0.2)",
+        borderColor: "#db9953",
+        pointBackgroundColor: "#120c45"
+      }]
+    },
+    options: { responsive: true, scales: { r: { min: 0, max: 5 } } }
+  });
+
+  // Resources
+  const resourcesList = document.getElementById("resourcesList");
+  (teacher.details.resources || ["Chapter 1 Notes", "Lab Assignment PDF"]).forEach(resItem => {
+    const li = document.createElement("li");
+    li.textContent = resItem;
+    resourcesList.appendChild(li);
+  });
+
+  // Announcements
+  const announcementsList = document.getElementById("announcementsList");
+  (teacher.details.announcements || ["Exam on Friday", "Field Trip Next Week"]).forEach(note => {
+    const li = document.createElement("li");
+    li.textContent = note;
+    announcementsList.appendChild(li);
+  });
+}
+
+loadTeacherProfile();
+</script>
+
+</body>
+</html>

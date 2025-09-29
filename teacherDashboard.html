@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empiras Vanguard Teacher Dashboard</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+/* Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; }
+.nav-bar ul li { margin:15px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+main { flex-grow:1; padding:30px; overflow-y:auto; }
+
+/* Header */
+header { display:flex; flex-direction:column; gap:4px; margin-bottom:25px; }
+.user-name { font-weight:700; font-size:1.8rem; color:#120C45; }
+.user-info { font-size:.9rem; color:#555; }
+
+/* Section Buttons */
+.section-buttons { display:flex; gap:15px; margin-bottom:25px; flex-wrap:wrap; }
+.section-buttons button {
+  padding:12px 25px; background:#db9953; border:none; border-radius:12px; color:#fff; font-weight:600; cursor:pointer; transition:all .3s;
+}
+.section-buttons button:hover { background:#120C45; transform:scale(1.05); }
+
+/* Sections */
+.section { display:none; margin-bottom:30px; }
+.section.active { display:block; }
+
+/* Cards */
+.card {
+  background:#fff; padding:20px; border-radius:12px; font-weight:600;
+  box-shadow:0 6px 20px rgba(18,12,69,0.1); color:#120C45; position:relative; transition:all .3s;
+  border-left:6px solid #db9953; display:flex; flex-direction:column; justify-content:center; min-height:120px;
+}
+.card:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 12px 25px rgba(18,12,69,0.15); }
+.card h3 { margin-bottom:8px; font-size:1.2rem; }
+.card p { font-size:.95rem; color:#555; line-height:1.4; }
+.card img { border-radius:10px; width:100%; height:150px; object-fit:cover; margin-top:10px; }
+
+/* Progress Bars (if needed for student grading) */
+.progress { background:#e5e5e5; border-radius:10px; height:15px; position:relative; margin-top:5px; }
+.progress-fill { background:#db9953; height:100%; border-radius:10px; transition:width .6s ease; }
+.progress-text { position:absolute; right:10px; top:0; font-size:.8rem; font-weight:bold; color:#120C45; }
+
+/* Grid */
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+
+/* Messages / Feedback */
+.messages-section { margin-top:25px; background:#fff; padding:25px; border-radius:12px; box-shadow:0 6px 20px rgba(18,12,69,0.08); }
+.messages-section textarea { width:100%; padding:15px; border:1px solid #ccc; border-radius:12px; margin-bottom:12px; resize:vertical; font-size:1rem; }
+.messages-section button { background:#db9953; color:#fff; padding:12px 25px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; transition:all .3s; }
+.messages-section button:hover { background:#120C45; transform:translateY(-2px) scale(1.02); }
+.confirmation { margin-top:12px; font-weight:bold; font-size:.95rem; display:none; }
+
+/* Responsive */
+@media(max-width:900px){ .section-buttons { flex-direction:column; align-items:flex-start; } }
+</style>
+</head>
+<body>
+
+<!-- Side Nav -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="teacherDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="teacherProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="teacherTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+    <li><a href="teacherNotification.html"><i class="fa-solid fa-bell"></i> NOTIFICATIONS</a></li>
+    <li><a href="teacherSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Welcome Header -->
+  <header>
+  <span class="user-name">Welcome</span>
+  <span class="user-info"></span>
+</header>
+
+
+  <!-- Section Buttons -->
+  <div class="section-buttons">
+    <button onclick="showSection('academics')">Subjects</button>
+    <button onclick="showSection('extracurricular')">Classes</button>
+    <button onclick="showSection('events')">Upcoming Events</button>
+  </div>
+
+  <!-- Academics -->
+  <div id="academics" class="section active grid">
+    <div class="card">
+      <h3>Mathematics (Grade 10)</h3>
+      <p>Currently covering: Algebra & Functions</p>
+    </div>
+    <div class="card">
+      <h3>Mathematics (Grade 11)</h3>
+      <p>Currently covering: Trigonometry</p>
+    </div>
+    <div class="card">
+      <h3>Advanced Mathematics (Grade 12)</h3>
+      <p>Currently covering: Calculus</p>
+    </div>
+  </div>
+
+  <!-- Extra Curricular -->
+  <div id="extracurricular" class="section grid">
+    <div class="card">
+      <h3>Math Olympiad Team</h3>
+      <p>Weekly practice on Fridays</p>
+      <img src="olympic.png" alt="Math Olympiad">
+    </div>
+    <div class="card">
+      <h3>Chess Club</h3>
+      <p>Open for all grades</p>
+      <img src="chess.jpeg" alt="Chess Club">
+    </div>
+  </div>
+
+  <!-- Events -->
+  <div id="events" class="section grid">
+    <div class="card">
+      <h3>Mid-Term Exams</h3>
+      <p>Date: 15th October 2025</p>
+    </div>
+    <div class="card">
+      <h3>Teacher Workshop</h3>
+      <p>Date: 30th October 2025</p>
+    </div>
+  </div>
+
+  <!-- Messages Section -->
+  <div class="messages-section">
+    <h3>Send a Message to Administration</h3>
+    <textarea id="messageText" placeholder="Write your message here..."></textarea>
+    <button id="sendBtn">Send</button>
+    <div class="confirmation" id="confirmationMsg"></div>
+  </div>
+</main>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Messaging
+const sendBtn = document.getElementById('sendBtn');
+const messageText = document.getElementById('messageText');
+const confirmationMsg = document.getElementById('confirmationMsg');
+
+sendBtn.addEventListener('click', ()=>{
+  if(messageText.value.trim()!==""){
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='green';
+    confirmationMsg.textContent='Your message has been sent successfully ✅';
+    messageText.value='';
+    setTimeout(()=>{confirmationMsg.style.display='none';},4000);
+  } else {
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='red';
+    confirmationMsg.textContent='Please write a message before sending ❗';
+    setTimeout(()=>{confirmationMsg.style.display='none';},3000);
+  }
+});
+</script>
+
+<<script>
+// Only update the teacher welcome heading dynamically
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+if(loggedInUserRole === "teacher" && loggedInUserID){
+  fetch('data.json')
+    .then(res => res.json())
+    .then(data => {
+      const teacher = data.users.find(u => u.ID.toString() === loggedInUserID && u.role === "teacher");
+      if(teacher){
+        const welcome = document.querySelector('.user-name');
+        welcome.textContent = `WELCOME ${teacher.details.name.toUpperCase()}`;
+      }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
+
+</body>
+</html>

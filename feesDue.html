@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fees Due - Empiras Learner Portal</title>
+<style>
+  /* Body & Background */
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #120c45 70%, #db9953 30%);
+    overflow: hidden;
+  }
+
+  /* Container */
+  .login-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    max-width: 28rem;
+    width: 100%;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Logo & Title */
+  .login-logo {
+    display: block;
+    margin: 0 auto 1rem auto;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #db9953;
+  }
+
+  .login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #120c45;
+    margin-bottom: 0.25rem;
+  }
+
+  .login-subtitle {
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  /* Button */
+  .login-button {
+    padding: 0.65rem 1.2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background: #db9953;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(219,153,83,0.4);
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .login-button:hover {
+    background: #120c45;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(18,12,69,0.6);
+  }
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="logo.jpg" alt="Logo" class="login-logo" />
+    <h1 class="login-title">Fees Due</h1>
+    <p id="feesMessage" class="login-subtitle"></p>
+    <div id="parentAction"></div>
+  </div>
+
+<script>
+  // Get user role from localStorage
+  const role = localStorage.getItem("loggedInUserRole");
+
+  const feesMessage = document.getElementById("feesMessage");
+  const parentAction = document.getElementById("parentAction");
+
+  if (role === "student") {
+    feesMessage.textContent = "Your account has outstanding fees. Please contact your parent/guardian for payment.";
+  } else if (role === "parents") {
+    feesMessage.textContent = "Your child’s account has outstanding fees. Please make a payment to continue.";
+    
+    // Create Pay Now button
+    const payButton = document.createElement("button");
+    payButton.textContent = "Pay Now";
+    payButton.className = "login-button";
+    payButton.onclick = () => {
+      window.location.href = "paymentSystem.html"; // Replace with your actual payment page
+    };
+    parentAction.appendChild(payButton);
+  } else {
+    feesMessage.textContent = "Unauthorized access. Please log in again.";
+  }
+</script>
+</body>
+</html>

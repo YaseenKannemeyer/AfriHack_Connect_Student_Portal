@@ -1,0 +1,289 @@
+{
+  "users": [
+    {
+      "role": "student",
+      "ID": 240453182,
+      "password": "1234",
+      "grade": "10",
+      "details": {
+        "name": "Alex Johnson",
+        "age": 16,
+        "profilePic": "https://via.placeholder.com/120",
+        "grades": { "math": 85, "science": 90, "english": 78 },
+        "academicGoals": "Improve math skills, participate in science fair",
+        "attendance": "95%",
+        "extracurricular": ["Football Team", "Science Club", "Volunteer Work"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "student",
+      "ID": 234245345182,
+      "password": "pleasework",
+      "grade": "11",
+      "details": {
+        "name": "Alex Bigman",
+        "age": 17,
+        "profilePic": "https://via.placeholder.com/120",
+        "grades": { "math": 88, "science": 92, "english": 80 },
+        "academicGoals": "Prepare for college entrance exams, join robotics club",
+        "attendance": "92%",
+        "extracurricular": ["Basketball Team", "Robotics Club"],
+        "paidFees": false
+      }
+    },
+    {
+      "role": "student",
+      "ID": 345678902,
+      "password": "pass123",
+      "grade": "9",
+      "details": {
+        "name": "Lily Adams",
+        "age": 15,
+        "profilePic": "https://via.placeholder.com/120",
+        "grades": { "math": 92, "science": 85, "english": 88 },
+        "academicGoals": "Join debate club, improve science grades",
+        "attendance": "97%",
+        "extracurricular": ["Debate Club", "Art Club"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "student",
+      "ID": 456789013,
+      "password": "mypassword",
+      "grade": "10",
+      "details": {
+        "name": "James Brown",
+        "age": 16,
+        "profilePic": "https://via.placeholder.com/120",
+        "grades": { "math": 78, "science": 80, "english": 85 },
+        "academicGoals": "Improve English and join football team",
+        "attendance": "93%",
+        "extracurricular": ["Football Team", "Chess Club"],
+        "paidFees": false
+      }
+    },
+    {
+      "role": "student",
+      "ID": 567890124,
+      "password": "abc123",
+      "grade": "11",
+      "details": {
+        "name": "Sophia Lee",
+        "age": 17,
+        "profilePic": "https://via.placeholder.com/120",
+        "grades": { "math": 95, "science": 89, "english": 92 },
+        "academicGoals": "Excel in science competitions, improve math",
+        "attendance": "96%",
+        "extracurricular": ["Science Club", "Swimming Team"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "teacher",
+      "ID": 123456789,
+      "password": "pass",
+      "details": {
+        "name": "Mrs. Smith",
+        "department": "Science",
+        "subjects": ["Physics", "Chemistry"],
+        "email": "smith@example.com",
+        "profilePic": "https://via.placeholder.com/120",
+        "classes": ["Grade 10 - Physics", "Grade 11 - Chemistry"],
+        "schedule": [
+          {"day": "Monday", "period": "1", "subject": "Physics"},
+          {"day": "Wednesday", "period": "3", "subject": "Chemistry"}
+        ],
+        "qualifications": "B.Ed in Science, 10 years experience",
+        "resources": ["Chapter 1 Notes", "Lab Assignment PDF"],
+        "announcements": ["Exam on Friday", "Field Trip Next Week"],
+        "feedback": [4, 5, 4, 5, 4] 
+      }
+    },
+    {
+      "role": "teacher",
+      "ID": 234567890,
+      "password": "teacher2",
+      "details": {
+        "name": "Mr. Johnson",
+        "department": "Mathematics",
+        "subjects": ["Algebra", "Calculus"],
+        "email": "johnson@example.com",
+        "profilePic": "https://via.placeholder.com/120",
+        "classes": ["Grade 10 - Algebra", "Grade 11 - Calculus"],
+        "schedule": [
+          {"day": "Tuesday", "period": "2", "subject": "Algebra"},
+          {"day": "Thursday", "period": "4", "subject": "Calculus"}
+        ],
+        "qualifications": "M.Sc Mathematics, 8 years experience",
+        "resources": ["Algebra Notes", "Calculus Assignments"],
+        "announcements": ["Homework due Monday", "Math Quiz Friday"],
+        "feedback": [5, 4, 5, 4, 5]
+      }
+    },
+    {
+      "role": "teacher",
+      "ID": 345678903,
+      "password": "teach3",
+      "details": {
+        "name": "Ms. Williams",
+        "department": "English",
+        "subjects": ["English Literature", "Grammar"],
+        "email": "williams@example.com",
+        "profilePic": "https://via.placeholder.com/120",
+        "classes": ["Grade 9 - Literature", "Grade 10 - Grammar"],
+        "schedule": [
+          {"day": "Monday", "period": "3", "subject": "Literature"},
+          {"day": "Wednesday", "period": "2", "subject": "Grammar"}
+        ],
+        "qualifications": "B.A English, 7 years experience",
+        "resources": ["Literature Notes", "Grammar Exercises"],
+        "announcements": ["Essay due Friday", "Reading Assignment next week"],
+        "feedback": [4, 4, 5, 4, 5]
+      }
+    },
+    {
+      "role": "teacher",
+      "ID": 456789014,
+      "password": "teach4",
+      "details": {
+        "name": "Mr. Lee",
+        "department": "History",
+        "subjects": ["World History", "Local History"],
+        "email": "lee@example.com",
+        "profilePic": "https://via.placeholder.com/120",
+        "classes": ["Grade 10 - World History", "Grade 11 - Local History"],
+        "schedule": [
+          {"day": "Tuesday", "period": "1", "subject": "World History"},
+          {"day": "Thursday", "period": "3", "subject": "Local History"}
+        ],
+        "qualifications": "M.A History, 6 years experience",
+        "resources": ["History Notes", "Project Guidelines"],
+        "announcements": ["History Exam on Friday", "Museum Visit next week"],
+        "feedback": [5, 5, 4, 5, 4]
+      }
+    },
+    {
+      "role": "teacher",
+      "ID": 567890125,
+      "password": "teach5",
+      "details": {
+        "name": "Mrs. Davis",
+        "department": "Physical Education",
+        "subjects": ["PE", "Health"],
+        "email": "davis@example.com",
+        "profilePic": "https://via.placeholder.com/120",
+        "classes": ["Grade 9 - PE", "Grade 10 - Health"],
+        "schedule": [
+          {"day": "Monday", "period": "2", "subject": "PE"},
+          {"day": "Wednesday", "period": "1", "subject": "Health"}
+        ],
+        "qualifications": "B.Sc Sports Science, 5 years experience",
+        "resources": ["Workout Plans", "Health Guidelines"],
+        "announcements": ["Sports Day next week", "Health Quiz Friday"],
+        "feedback": [4, 5, 4, 5, 5]
+      }
+    },
+    {
+      "role": "parents",
+      "ID": 987654321,
+      "password": "abcd",
+      "contact": "parent@example.com",
+      "details": {
+        "name": "Mr. Johnson",
+        "relationship": "Father",
+        "contact": "098 765 4321",
+        "email": "parent@example.com",
+        "child": "Alex Johnson",
+        "childID": 240453182,
+        "childGrade": "10",
+        "childProfilePic": "https://via.placeholder.com/120",
+        "childAcademicGoals": "Improve math skills, participate in science fair",
+        "childGrades": { "math": 85, "science": 90, "english": 78 },
+        "childTeachers": ["Mrs. Smith - Science", "Mr. Johnson - Math"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "parents",
+      "ID": 876543210,
+      "password": "parent2",
+      "contact": "brown@example.com",
+      "details": {
+        "name": "Mrs. Brown",
+        "relationship": "Mother",
+        "contact": "brown@example.com",
+        "email": "brown@example.com",
+        "child": "Lily Adams",
+        "childID": 345678902,
+        "childGrade": "9",
+        "childProfilePic": "https://via.placeholder.com/120",
+        "childAcademicGoals": "Join debate club, improve science grades",
+        "childGrades": { "math": 92, "science": 85, "english": 88 },
+        "childTeachers": ["Ms. Williams - English", "Mr. Lee - History"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "parents",
+      "ID": 765432109,
+      "password": "parent3",
+      "contact": "lee@example.com",
+      "details": {
+        "name": "Mr. Lee",
+        "relationship": "Father",
+        "contact": "lee@example.com",
+        "email": "lee@example.com",
+        "child": "James Brown",
+        "childID": 456789013,
+        "childGrade": "10",
+        "childProfilePic": "https://via.placeholder.com/120",
+        "childAcademicGoals": "Improve English and join football team",
+        "childGrades": { "math": 78, "science": 80, "english": 85 },
+        "childTeachers": ["Mrs. Smith - Science", "Mr. Johnson - Math"],
+        "paidFees": false
+      }
+    },
+    {
+      "role": "parents",
+      "ID": 654321098,
+      "password": "parent4",
+      "contact": "sophia@example.com",
+      "details": {
+        "name": "Mrs. Lee",
+        "relationship": "Mother",
+        "contact": "sophia@example.com",
+        "email": "sophia@example.com",
+        "child": "Sophia Lee",
+        "childID": 567890124,
+        "childGrade": "11",
+        "childProfilePic": "https://via.placeholder.com/120",
+        "childAcademicGoals": "Excel in science competitions, improve math",
+        "childGrades": { "math": 95, "science": 89, "english": 92 },
+        "childTeachers": ["Mrs. Smith - Science", "Mr. Johnson - Math"],
+        "paidFees": true
+      }
+    },
+    {
+      "role": "parents",
+      "ID": 543210987,
+      "password": "parent5",
+      "contact": "davis@example.com",
+      "details": {
+        "name": "Mr. Davis",
+        "relationship": "Father",
+        "contact": "davis@example.com",
+        "email": "davis@example.com",
+        "child": "Alex Bigman",
+        "childID": 234245345182,
+        "childGrade": "11",
+        "childProfilePic": "https://via.placeholder.com/120",
+        "childAcademicGoals": "Prepare for college entrance exams, join robotics club",
+        "childGrades": { "math": 88, "science": 92, "english": 80 },
+        "childTeachers": ["Mrs. Smith - Science", "Mr. Johnson - Math"],
+        "paidFees": false
+      }
+    }
+  ]
+}

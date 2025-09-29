@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empiras Vanguard Dashboard</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+/* Reset & Base */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; }
+.nav-bar ul li { margin:15px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+main { flex-grow:1; padding:30px; overflow-y:auto; }
+
+/* Header */
+header { display:flex; flex-direction:column; gap:4px; margin-bottom:25px; }
+.user-name { font-weight:700; font-size:1.8rem; color:#120C45; }
+.user-info { font-size:.9rem; color:#555; }
+
+/* Section Buttons */
+.section-buttons { display:flex; gap:15px; margin-bottom:25px; flex-wrap:wrap; }
+.section-buttons button {
+  padding:12px 25px; background:#db9953; border:none; border-radius:12px; color:#fff; font-weight:600; cursor:pointer; transition:all .3s;
+}
+.section-buttons button:hover { background:#120C45; transform:scale(1.05); }
+
+/* Sections */
+.section { display:none; margin-bottom:30px; }
+.section.active { display:block; }
+
+/* Cards (Subjects / Extra Curricular / Events) */
+.card {
+  background:#fff; padding:20px; border-radius:12px; font-weight:600; cursor:pointer;
+  box-shadow:0 6px 20px rgba(18,12,69,0.1); color:#120C45; position:relative; transition:all .3s;
+  border-left:6px solid #db9953; display:flex; flex-direction:column; justify-content:center; min-height:120px;
+}
+.card:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 12px 25px rgba(18,12,69,0.15); }
+.card h3 { margin-bottom:8px; font-size:1.2rem; }
+.card p { font-size:.95rem; color:#555; line-height:1.4; }
+.card img { border-radius:10px; width:100%; height:150px; object-fit:cover; margin-top:10px; }
+
+/* Academic Progress Bars */
+.progress { background:#e5e5e5; border-radius:10px; height:15px; position:relative; margin-top:5px; }
+.progress-fill { background:#db9953; height:100%; border-radius:10px; transition:width .6s ease; }
+.progress-text { position:absolute; right:10px; top:0; font-size:.8rem; font-weight:bold; color:#120C45; }
+
+/* Responsive Grid */
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+
+/* Messages / Feedback */
+.messages-section { margin-top:25px; background:#fff; padding:25px; border-radius:12px; box-shadow:0 6px 20px rgba(18,12,69,0.08); }
+.messages-section textarea { width:100%; padding:15px; border:1px solid #ccc; border-radius:12px; margin-bottom:12px; resize:vertical; font-size:1rem; }
+.messages-section button { background:#db9953; color:#fff; padding:12px 25px; border:none; border-radius:12px; cursor:pointer; font-weight:bold; transition:all .3s; }
+.messages-section button:hover { background:#120C45; transform:translateY(-2px) scale(1.02); }
+.confirmation { margin-top:12px; font-weight:bold; font-size:.95rem; display:none; }
+
+/* Responsive */
+@media(max-width:900px){ .section-buttons { flex-direction:column; align-items:flex-start; } }
+</style>
+</head>
+<body>
+
+<!-- Side Nav -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="parentDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="parentProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="parentTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+        <li><a href="parentNotification.html"><i class="fa-solid fa-pen-to-square"></i> NOTIFICATIONS</a></li>
+    <li><a href="psupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<main>
+  <header>
+    <span class="user-name">Welcome, Lerato Mokoenad</span>
+    <span class="user-info">Grade 10 · Learner ID: 20876</span>
+  </header>
+  
+  <!-- Section Buttons -->
+  <div class="section-buttons">
+    <button onclick="showSection('academics')">Academics</button>
+    <button onclick="showSection('extracurricular')">Extra Curricular</button>
+    <button onclick="showSection('events')">Upcoming Events</button>
+  </div>
+
+  <!-- Sections -->
+  <div id="academics" class="section active grid">
+    <div class="card">
+      <h3>Mathematics</h3>
+      <p>Assignment 3 submitted. Grade: 85%</p>
+      <div class="progress"><div class="progress-fill" style="width:85%;"></div><span class="progress-text">85%</span></div>
+    </div>
+    <div class="card">
+      <h3>English</h3>
+      <p>Test graded: 78%</p>
+      <div class="progress"><div class="progress-fill" style="width:78%;"></div><span class="progress-text">78%</span></div>
+    </div>
+    <div class="card">
+      <h3>Science</h3>
+      <p>Lab work ongoing. Grade: 90%</p>
+      <div class="progress"><div class="progress-fill" style="width:90%;"></div><span class="progress-text">90%</span></div>
+    </div>
+  </div>
+
+  <div id="extracurricular" class="section grid">
+    <div class="card">
+      <h3>Basketball Team</h3>
+      <p>Practice every Monday and Wednesday</p>
+      <img src="basketball.jpg" alt="Basketball">
+    </div>
+    <div class="card">
+      <h3>Choir</h3>
+      <p>Performances scheduled monthly</p>
+      <img src="choir.jpg" alt="Choir">
+    </div>
+  </div>
+
+  <div id="events" class="section grid">
+    <div class="card">
+      <h3>Science Fair</h3>
+      <p>Date: 25th September 2025</p>
+    </div>
+    <div class="card">
+      <h3>Parent-Teacher Meeting</h3>
+      <p>Date: 2nd October 2025</p>
+    </div>
+  </div>
+
+  <!-- Messages Section -->
+  <div class="messages-section">
+    <h3>Send a Message to the School</h3>
+    <textarea id="messageText" placeholder="Write your message here..."></textarea>
+    <button id="sendBtn">Send</button>
+    <div class="confirmation" id="confirmationMsg"></div>
+  </div>
+
+</main>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Messaging functionality
+const sendBtn = document.getElementById('sendBtn');
+const messageText = document.getElementById('messageText');
+const confirmationMsg = document.getElementById('confirmationMsg');
+
+sendBtn.addEventListener('click', ()=>{
+  if(messageText.value.trim()!==""){
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='green';
+    confirmationMsg.textContent='Your message has been sent successfully ✅';
+    messageText.value='';
+    setTimeout(()=>{confirmationMsg.style.display='none';},4000);
+  } else {
+    confirmationMsg.style.display='block';
+    confirmationMsg.style.color='red';
+    confirmationMsg.textContent='Please write a message before sending ❗';
+    setTimeout(()=>{confirmationMsg.style.display='none';},3000);
+  }
+});
+
+// Get logged in user info from localStorage
+const loggedInUserID = localStorage.getItem("loggedInUserID");
+const loggedInUserRole = localStorage.getItem("loggedInUserRole");
+
+// Ensure a user is logged in
+if (!loggedInUserID || !loggedInUserRole) {
+  alert("You are not logged in!");
+  window.location.href = "login.html"; // redirect to login
+}
+
+// Fetch JSON data
+fetch('data.json')
+  .then(response => response.json())
+  .then(data => {
+    const user = data.users.find(u =>
+      u.ID.toString() === loggedInUserID && u.role === loggedInUserRole
+    );
+
+    if (!user) {
+      alert("User not found!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    // Populate dashboard based on role
+    populateDashboard(user);
+  })
+  .catch(err => console.error("Error loading JSON:", err));
+
+function populateDashboard(user) {
+  const userNameEl = document.querySelector('.user-name');
+  const userInfoEl = document.querySelector('.user-info');
+
+  // Common elements
+  const dashboardContent = document.getElementById('parentDashboardContent') || document.getElementById('dashboardCard');
+  const accessDeniedParent = document.getElementById('accessDeniedParent');
+  const accessDeniedCard = document.getElementById('accessDeniedCard');
+
+  // --- Handle unpaid fees ---
+  if (!user.details.paidFees) {
+    if (user.role === "student") {
+      dashboardContent.style.display = 'none';
+      accessDeniedCard.style.display = 'block';
+      accessDeniedCard.querySelector('button').onclick = () => showSection('payment'); // redirect to payment section
+    } else if (user.role === "parents") {
+      dashboardContent.style.display = 'none';
+      accessDeniedParent.style.display = 'block';
+      accessDeniedParent.querySelector('button').onclick = goToPayment; // redirect to student payment page
+    }
+    return; // stop rendering other content
+  }
+
+  // --- If fees are paid, show dashboard ---
+  if (dashboardContent) dashboardContent.style.display = 'block';
+  if (accessDeniedCard) accessDeniedCard.style.display = 'none';
+  if (accessDeniedParent) accessDeniedParent.style.display = 'none';
+
+  // --- Set welcome info ---
+  if (user.role === "student") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `Grade ${user.details.grade} · Learner ID: ${user.ID}`;
+  } else if (user.role === "parents") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `${user.details.relationship} · Child: ${user.details.child}`;
+  } else if (user.role === "teacher") {
+    userNameEl.textContent = `Welcome, ${user.details.name}`;
+    userInfoEl.textContent = `${user.details.department} Department · ID: ${user.ID}`;
+  }
+
+  // --- Populate academics ---
+  const academicsEl = document.getElementById('academics');
+  academicsEl.innerHTML = '';
+  if (user.role === "student") {
+    for (const [subject, grade] of Object.entries(user.details.grades)) {
+      academicsEl.appendChild(createCard(subject, grade));
+    }
+  } else if (user.role === "parents") {
+    for (const [subject, grade] of Object.entries(user.details.childGrades)) {
+      academicsEl.appendChild(createCard(subject, grade));
+    }
+  } else if (user.role === "teacher") {
+    user.details.subjects.forEach(subj => {
+      academicsEl.appendChild(createCard(subj));
+    });
+  }
+
+  // --- Populate extra curricular ---
+  const extraEl = document.getElementById('extracurricular');
+  extraEl.innerHTML = '';
+  if (user.role === "student") {
+    user.details.extracurricular.forEach(activity => {
+      extraEl.appendChild(createCard(activity));
+    });
+  } else if (user.role === "parents" && user.details.childExtracurricular) {
+    user.details.childExtracurricular.forEach(activity => {
+      extraEl.appendChild(createCard(activity));
+    });
+  } else if (user.role === "teacher") {
+    user.details.classes.forEach(cls => {
+      extraEl.appendChild(createCard(cls));
+    });
+  }
+}
+
+// --- Helper functions ---
+function createCard(title, grade = null) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  if (grade !== null) {
+    card.innerHTML = `
+      <h3>${capitalize(title)}</h3>
+      <p>Current grade: ${grade}%</p>
+      <div class="progress">
+        <div class="progress-fill" style="width:${grade}%;"></div>
+        <span class="progress-text">${grade}%</span>
+      </div>
+    `;
+  } else {
+    card.innerHTML = `<h3>${capitalize(title)}</h3>`;
+  }
+  return card;
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function goToPayment() {
+  window.location.href = "payment.html";
+}
+
+
+</script>
+
+<script>
+// Only update the welcome heading dynamically
+
+if(loggedInUserRole === "parent" && loggedInUserID){
+  fetch('data.json')
+    .then(res => res.json())
+    .then(data => {
+      const student = data.users.find(u => u.ID.toString() === loggedInUserID && u.role === "parent");
+      if(student){
+        const welcome = document.querySelector('.image-container h2');
+        welcome.textContent = `WELCOME ${student.details.name.toUpperCase()}`;
+      }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
+
+</body>
+</html>

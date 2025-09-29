@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parent/Guardian Profile - Empiras Vanguard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+body { display:flex; min-height:100vh; background:#f5f5f5; color:#333; }
+
+/* Side Nav */
+.nav-bar {
+  width:220px; background:#120C45; color:#fff; display:flex; flex-direction:column; padding:20px 0; flex-shrink:0;
+}
+.nav-bar .logo-container { text-align:center; margin-bottom:30px; }
+.nav-bar .logo-container img { width:120px; height:auto; }
+.nav-bar ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; }
+.nav-bar ul li { margin:10px 0; }
+.nav-bar ul li a { display:flex; align-items:center; color:#fff; text-decoration:none; font-weight:600; padding:10px 20px; border-radius:8px; transition:all .3s; }
+.nav-bar ul li a i { margin-right:12px; font-size:1.1rem; }
+.nav-bar ul li a:hover, .nav-bar ul li a.active { background:#db9953; color:#120C45; transform:translateX(5px); }
+
+/* Main Content */
+.main-content { flex-grow:1; display:flex; flex-direction:column; overflow-y:auto; padding:20px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="nav-bar">
+  <div class="logo-container">
+    <img src="Empiras global academy logo.jpg" alt="Logo">
+  </div>
+  <ul>
+    <li><a href="parentDashboard.html"><i class="fa-solid fa-house"></i> HOME</a></li>
+    <li><a href="parentProfile.html"><i class="fa-regular fa-user"></i> PROFILE</a></li>
+    <li><a href="parentTool.html"><i class="fa-solid fa-pen-to-square"></i> TOOLS</a></li>
+        <li><a href="parentNotification.html"><i class="fa-solid fa-pen-to-square"></i> NOTIFICATIONS</a></li>
+    <li><a href="parentSupport.html"><i class="fa-solid fa-circle-question"></i> SUPPORT SERVICES</a></li>
+    <li><a href="login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i> SIGN OUT</a></li>
+  </ul>
+</nav>
+
+<!-- Main Profile Content -->
+<div class="main-content">
+
+  <!-- Profile Header -->
+  <div class="bg-white shadow-xl rounded-2xl p-8 mb-8 flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 hover:shadow-2xl hover:scale-[1.01] transition-all border-t-8 border-[#db9953]">
+    <div class="relative">
+      <img id="profilePic" src="icon.jpg"  alt="Profile Picture"
+           class="w-32 h-32 rounded-full border-4 border-[#db9953] shadow-lg object-cover transition-transform duration-300 hover:scale-105">
+
+      <div class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+    </div>
+    <div class="text-center md:text-left">
+      <h1 id="parentName" class="text-4xl font-extrabold text-[#120c45] tracking-tight">Loading...</h1>
+      <p id="parentEmail" class="text-gray-600 mt-2 text-lg">Email: --</p>
+      <p id="parentContact" class="text-gray-600 text-lg">Contact: --</p>
+      <p id="parentRelationship" class="text-gray-600 text-lg">Relationship: --</p>
+    </div>
+  </div>
+
+  <!-- Info Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- Child Information -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Child Information</h2>
+      <p id="childName" class="text-gray-700 text-lg">Name: --</p>
+      <p id="childGrade" class="text-gray-700 text-lg">Grade: --</p>
+      <p id="childID" class="text-gray-700 text-lg">ID: --</p>
+      <a id="childProfileLink" href="#" class="text-[#db9953] hover:underline text-lg font-medium">View Profile</a>
+    </div>
+
+    <!-- Academic Goals -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Academic Goals</h2>
+      <textarea id="childGoals" 
+                class="w-full border border-gray-300 rounded-xl p-4 text-gray-700 text-lg placeholder-gray-400 focus:ring-2 focus:ring-[#db9953] focus:border-[#db9953] transition-all"
+                rows="3" placeholder="Short-term and long-term goals..."></textarea>
+    </div>
+
+    <!-- Academic Performance -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Performance</h2>
+      <ul id="gradesList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+      <canvas id="performanceChart" height="120" class="mt-4"></canvas>
+    </div>
+
+    <!-- Teacher & Class Info -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Teacher & Class</h2>
+      <ul id="teachersList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+    </div>
+
+    <!-- Fee / Payment Info -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#db9953] hover:shadow-lg hover:scale-[1.02] transition-all">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Fees / Payment</h2>
+      <ul id="feeList" class="list-disc list-inside text-gray-700 text-lg space-y-1"></ul>
+    </div>
+
+    <!-- Communication Tools -->
+    <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-[#120c45] hover:shadow-lg hover:scale-[1.02] transition-all flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-[#120c45] mb-3">Communication</h2>
+      <button class="bg-[#120c45] text-white px-6 py-3 rounded-xl hover:bg-[#0d0833] transition-all shadow-md">Message Teacher</button>
+      <button class="bg-[#db9953] text-white px-6 py-3 rounded-xl hover:bg-[#b87d3e] transition-all shadow-md">Request Meeting</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+async function loadParentProfile() {
+  const res = await fetch("data.json");
+  const data = await res.json();
+
+  const loggedInID = parseInt(localStorage.getItem("loggedInUserID"));
+  const parent = data.users.find(u => u.role === "parents" && u.ID === loggedInID);
+
+  if (!parent) { alert("Parent/Guardian not found!"); return; }
+
+  // Parent Info
+  document.getElementById("parentName").textContent = parent.details.name;
+  document.getElementById("parentEmail").textContent = "Email: " + (parent.details.contact || "N/A");
+  document.getElementById("parentContact").textContent = "Contact: " + (parent.details.phone || "N/A");
+  document.getElementById("parentRelationship").textContent = "Relationship: " + (parent.details.relationship || "N/A");
+
+  // Child Info
+  document.getElementById("childName").textContent = "Name: " + parent.details.child;
+  document.getElementById("childGrade").textContent = "Grade: " + (parent.details.grade || "N/A");
+  document.getElementById("childID").textContent = "ID: " + (parent.details.childID || "N/A");
+  document.getElementById("childProfileLink").href = "student.html?id=" + parent.details.childID;
+
+  // Academic Goals
+  document.getElementById("childGoals").value = parent.details.academicGoals || "";
+
+  // Academic Performance
+  const gradesList = document.getElementById("gradesList");
+  gradesList.innerHTML = "";
+  Object.entries(parent.details.grades || {Math:0, Science:0}).forEach(([subject, score]) => {
+    const li = document.createElement("li");
+    li.textContent = `${subject}: ${score}`;
+    gradesList.appendChild(li);
+  });
+
+  const ctx = document.getElementById("performanceChart");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: Object.keys(parent.details.grades || {Math:0, Science:0}),
+      datasets: [{
+        label: "Grades",
+        data: Object.values(parent.details.grades || {Math:0, Science:0}),
+        backgroundColor: ["#120c45","#db9953","#6b7280"]
+      }]
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+  });
+
+  // Teacher & Class Info
+  const teachersList = document.getElementById("teachersList");
+  (parent.details.teachers || ["Mrs. Smith - Science", "Mr. Doe - Math"]).forEach(t => {
+    const li = document.createElement("li");
+    li.textContent = t;
+    teachersList.appendChild(li);
+  });
+
+  // Fee/Payment Info
+  const feeList = document.getElementById("feeList");
+  (parent.details.fees || ["Tuition: Paid", "Library: Outstanding"]).forEach(f => {
+    const li = document.createElement("li");
+    li.textContent = f;
+    feeList.appendChild(li);
+  });
+}
+
+loadParentProfile();
+</script>
+
+</body>
+</html>
