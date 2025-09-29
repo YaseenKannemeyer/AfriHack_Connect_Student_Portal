@@ -18,6 +18,25 @@ Built with **HTML, CSS, JavaScript, TailwindCSS**, and JSON-based data simulatio
 
 ---
 
+## Screenshots of the Project
+
+<p align="center">
+  <img src="Screenshot1.png" alt="Login Page" width="600">
+  <br>
+  <sub>**Figure 1:** Screenshot of the login page</sub>
+</p>
+
+<p align="center">
+  <img src="Screenshot2.png" alt="Student Dashboard" width="600">
+  <br>
+  <sub>**Figure 2:** Screenshot of the student dashboard</sub>
+</p>
+
+
+
+
+
+---
 ## 🚀 Features
 
 ### 👩‍🎓 Student Dashboard
@@ -51,5 +70,18 @@ Built with **HTML, CSS, JavaScript, TailwindCSS**, and JSON-based data simulatio
 
 ---
 
+## 🏆 Awards & Recognition
 
+I was personally honored with the **“Most Promising Award”** at the **AFRIHACK CONNECT** competition! 🎉
+
+This recognition highlights:
+
+- **Innovation & Creativity:** My contributions in designing and developing features like interactive dashboards, real-time messaging, and virtual file system simulation.  
+- **Technical Skills:** Hands-on experience with **HTML, CSS, JavaScript**, and advanced frontend techniques including **Tailwind-inspired responsive styling** and **dynamic content updates**.  
+- **Impactful Problem Solving:** Developing solutions that address real-world educational challenges, such as academic progress tracking, notifications, and parent-student communication.  
+- **Professional Growth:** The award reflects my ability to take initiative, learn new technologies quickly, and deliver high-quality software under competition pressure.
+
+This recognition motivates me to continue creating **innovative and user-friendly tech solutions** in the educational technology space.
+
+![Award](2.png)
 
